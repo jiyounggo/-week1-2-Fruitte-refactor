@@ -1,84 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { get } from '../../api/api';
-import { ROUTE } from '../../common/utils/constant';
+// import { ROUTE } from '../../common/utils/constant';
 import Tab from '../Categorize/Tab';
 
 function ProductDetail() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   let [items, setItems] = useState([]);
   let { id } = useParams();
+  let [selectOption, setSelectOption] = useState([]);
 
   const getData = async () => {
     const res = await get();
     setItems(res.products);
+    console.info(res.products);
   };
   useEffect(() => {
     getData();
   }, []);
 
-  const OPTIONS = [
-    { value: '배송비(선결제)', name: '배송비(선결제)' },
-    { value: '배송비(착불)', name: '배송비(착불)' },
-  ];
-  const [setSelectItem] = useState('');
-  const 배송 = e => {
-    setSelectItem(e.target.value);
-  };
-  const [options, setOption] = useState([]);
-  const [sum, setSum] = useState(0);
+  const selectHandler = e => {
+    const selectProduct = e.target.value;
+    const findProduct = items[id].salesList.find(item => item.title === selectProduct);
+    console.info(findProduct);
 
-  const handleChange = e => {
-    const _options = options.filter((o, idx) => {
-      if (o.text !== e.target.value) {
-        return o.text;
-      } else {
-        alert('이미 선택된 옵션입니다');
-      }
+    let dupValue = selectOption.findIndex(a => {
+      return a.index === findProduct.index;
     });
 
-    let price = items[id]?.salesList.reduce((accu, cart) => accu + cart.price * 1, 0);
-
-    setOption([..._options, { text: e.target.value, sum: price }]);
-    setSum(price);
+    {
+      dupValue === -1
+        ? setSelectOption([...selectOption, findProduct])
+        : alert('이미선택된 옵션 입니다');
+    }
   };
 
-  const handleBuy = () => {
-    if (options.length === 0) return;
-    navigate(`${ROUTE.ORDER}/${id}`);
-  };
-
-  const [counter, setCounter] = useState(0);
-  const [changecount, setchangecount] = useState([1, 1, 1]);
-
-  let increaseCount = idx => {
-    let copy = [...changecount];
-    copy[idx] = copy[idx] + 1;
-    setchangecount(copy);
-    setCounter(counter + 1);
-  };
-
-  let decreaseCount = idx => {
-    let copy = [...changecount];
-    copy[idx] = copy[idx] - 1;
-    setchangecount(copy);
-    setCounter(counter - 1);
-  };
-
-  let deleteitems = i => {
-    let copy = [...options];
-    copy.splice(i, 1);
-    setOption(copy);
-  };
-  let selected = items[id]?.salesList.map(option => (
-    <option key={option.value} value={option.title} defaultValue={option.title}>
-      <div>
-        <div> {option.title} </div>
-        <div>{option.price}</div>
-      </div>
-    </option>
-  ));
+  console.info(selectOption);
 
   return (
     <Wrapper>
@@ -108,10 +66,12 @@ function ProductDetail() {
             </div>
 
             <SelectBoxWrapper>
-              <Select onChange={배송}>
-                {OPTIONS.map(option => (
-                  <option key={option.value} value={option.value} defaultValue={option.value}>
-                    {option.name}
+              <Select onChange={selectHandler}>
+                <option>선택하시오</option>
+                {items[id]?.salesList.map(option => (
+                  <option value={option.title} key={option.index}>
+                    {option.title}
+                    {option.price}
                   </option>
                 ))}
               </Select>
@@ -132,70 +92,12 @@ function ProductDetail() {
                 />
               </IconSVG>
             </SelectBoxWrapper>
-            <SelectBoxWrapper>
-              <Select onChange={handleChange}>
-                <option value="none" disabled selected>
-                  === 선택 ===
-                </option>
-                {selected}
-              </Select>
-              <IconSVG
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill="none"
-                  fillRule="evenodd"
-                  stroke="#A1A1A1"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.045 3.955L10.136 8.052 6.045 12.136"
-                  transform="rotate(90 7.91 8.045)"
-                />
-              </IconSVG>
-            </SelectBoxWrapper>
+            <div></div>
             <div>
-              {options &&
-                options.map((option, idx) => {
-                  return (
-                    <BoxItem key={idx}>
-                      <Items>
-                        <TextItem>
-                          <p>{option.text}</p>
-                        </TextItem>
-                        <DelteCon>
-                          <DelteBtn onClick={deleteitems}>X</DelteBtn>
-                        </DelteCon>
-                      </Items>
-                      <Box key={idx}>
-                        <IncreaseBtn
-                          onClick={() => {
-                            decreaseCount(idx);
-                          }}
-                        >
-                          -
-                        </IncreaseBtn>
-                        <Input type="text" value={changecount[idx]}></Input>
-                        <DecreaseBtn
-                          onClick={() => {
-                            increaseCount(idx);
-                          }}
-                        >
-                          +
-                        </DecreaseBtn>
-                      </Box>
-                    </BoxItem>
-                  );
-                })}
-
-              <TotalSum>
-                총 상품금액 ({changecount[0] + changecount[1] + changecount[2]}개) :
-                {sum * (changecount[0] + changecount[1] + changecount[2])} 원
-              </TotalSum>
+              <div>{selectOption[0] && selectOption.map(a => <div>{a.title}</div>)}</div>
+              <TotalSum>총 상품금액 원</TotalSum>
               <BtnState>
-                <BuyBtn onClick={handleBuy}>구매하기</BuyBtn>
+                <BuyBtn>구매하기</BuyBtn>
                 <CartBtn>장바구니</CartBtn>
                 <HartBtn>♡</HartBtn>
               </BtnState>
@@ -220,16 +122,16 @@ const Wrapper = styled.div`
   margin: 0 auto;
   width: 900px;
 `;
-const BoxItem = styled.div`
-  flex-direction: column;
-  background-color: #f4f4f4;
-  margin: 10px 0;
-  height: 100%;
-`;
-const Box = styled.div`
-  display: flex;
-  margin-left: 20px;
-`;
+// const BoxItem = styled.div`
+//   flex-direction: column;
+//   background-color: #f4f4f4;
+//   margin: 10px 0;
+//   height: 100%;
+// `;
+// const Box = styled.div`
+//   display: flex;
+//   margin-left: 20px;
+// `;
 
 const Middle = styled.div`
   display: flex;
@@ -240,9 +142,9 @@ const Price = styled.p`
   margin-right: 10px;
 `;
 
-const Input = styled.input`
-  width: 25px;
-`;
+// const Input = styled.input`
+//   width: 25px;
+// `;
 const SalePrice = styled.p`
   font-size: 15px;
   margin-top: 3px;
@@ -253,14 +155,14 @@ const Origin = styled.p`
   font-size: 10px;
   margin: 15px 0;
 `;
-const Items = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-`;
-const TextItem = styled.div`
-  margin-left: 20px;
-  margin-top: 10px;
-`;
+// const Items = styled.div`
+//   display: flex;
+//   margin-bottom: 20px;
+// `;
+// const TextItem = styled.div`
+//   margin-left: 20px;
+//   margin-top: 10px;
+// `;
 
 const Right = styled.div`
   width: 500px;
@@ -271,13 +173,13 @@ const BtnState = styled.div`
   justify-content: center;
 `;
 
-const DelteCon = styled.div``;
-const DelteBtn = styled.button`
-  border-radius: 100%;
-  margin-left: 30px;
-  margin-top: 10px;
-  padding: 0;
-`;
+// const DelteCon = styled.div``;
+// const DelteBtn = styled.button`
+//   border-radius: 100%;
+//   margin-left: 30px;
+//   margin-top: 10px;
+//   padding: 0;
+// `;
 const BuyBtn = styled.button`
   border: 1px solid grey;
   border-radius: 20px;
@@ -311,12 +213,12 @@ const Img = styled.img`
   width: 450px;
   margin-right: 100px;
 `;
-const IncreaseBtn = styled.button`
-  border: 1px solid black;
-`;
-const DecreaseBtn = styled.button`
-  border: 1px solid black;
-`;
+// const IncreaseBtn = styled.button`
+//   border: 1px solid black;
+// `;
+// const DecreaseBtn = styled.button`
+//   border: 1px solid black;
+// `;
 
 const SaleBtn = styled.button`
   background-color: red;
