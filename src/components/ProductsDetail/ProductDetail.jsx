@@ -23,7 +23,6 @@ function ProductDetail() {
   const selectHandler = e => {
     const selectProduct = e.target.value;
     const findProduct = items[id].salesList.find(item => item.title === selectProduct);
-    console.info(findProduct);
 
     let dupValue = selectOption.findIndex(a => {
       return a.index === findProduct.index;
@@ -34,8 +33,12 @@ function ProductDetail() {
         ? setSelectOption([...selectOption, findProduct])
         : alert('이미선택된 옵션 입니다');
     }
+    const updatesTotalAmount = selectOption.price + selectOption.price;
+    console.info(updatesTotalAmount);
   };
 
+  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price, 0);
+  console.info(totalAmount);
   console.info(selectOption);
 
   return (
@@ -94,8 +97,15 @@ function ProductDetail() {
             </SelectBoxWrapper>
             <div></div>
             <div>
-              <div>{selectOption[0] && selectOption.map(a => <div>{a.title}</div>)}</div>
-              <TotalSum>총 상품금액 원</TotalSum>
+              <div>
+                {selectOption[0] &&
+                  selectOption.map((a, i) => (
+                    <div>
+                      {a.title} {a.price}원
+                    </div>
+                  ))}
+              </div>
+              <TotalSum>총 상품금액 {totalAmount}원</TotalSum>
               <BtnState>
                 <BuyBtn>구매하기</BuyBtn>
                 <CartBtn>장바구니</CartBtn>
