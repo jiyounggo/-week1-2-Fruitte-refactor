@@ -24,13 +24,13 @@
           "index": 2,
           "title": "유자청 1kg 1병",
           "price": 13300,
-          "quantity": 3
+          "quantity": 1
         },
         {
           "index": 3,
           "title": "착즙유자 500ml",
           "price": 18800,
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "show": true
@@ -96,13 +96,13 @@
           "index": 2,
           "title": "4kg",
           "price": 92000,
-          "quantity": 3
+          "quantity": 1
         },
         {
           "index": 3,
           "title": "5kg",
           "price": 109000,
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "show": true
@@ -131,7 +131,7 @@
           "index": 2,
           "title": "2kg",
           "price": 36000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -207,7 +207,7 @@
           "index": 2,
           "title": "10봉지",
           "price": 65000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -295,7 +295,7 @@
           "index": 2,
           "title": "간장 1L",
           "price": 12500,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -338,7 +338,7 @@
           "index": 2,
           "title": "된장 2kg",
           "price": 37000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -381,7 +381,7 @@
           "index": 2,
           "title": "고추장 2kg",
           "price": 49000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -410,13 +410,13 @@
           "index": 2,
           "title": "유자청 1kg 1병",
           "price": 13300,
-          "quantity": 3
+          "quantity": 1
         },
         {
           "index": 3,
           "title": "착즙유자 500ml",
           "price": 18800,
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "show": true
@@ -482,13 +482,13 @@
           "index": 2,
           "title": "4kg",
           "price": 92000,
-          "quantity": 3
+          "quantity": 1
         },
         {
           "index": 3,
           "title": "5kg",
           "price": 109000,
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "show": true
@@ -517,7 +517,7 @@
           "index": 2,
           "title": "2kg",
           "price": 36000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -593,7 +593,7 @@
           "index": 2,
           "title": "10봉지",
           "price": 65000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -681,7 +681,7 @@
           "index": 2,
           "title": "간장 1L",
           "price": 12500,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -724,7 +724,7 @@
           "index": 2,
           "title": "된장 2kg",
           "price": 37000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -767,7 +767,7 @@
           "index": 2,
           "title": "고추장 2kg",
           "price": 49000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -796,13 +796,13 @@
           "index": 2,
           "title": "유자청 1kg 1병",
           "price": 13300,
-          "quantity": 3
+          "quantity": 1
         },
         {
           "index": 3,
           "title": "착즙유자 500ml",
           "price": 18800,
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "show": true
@@ -868,13 +868,13 @@
           "index": 2,
           "title": "4kg",
           "price": 92000,
-          "quantity": 3
+          "quantity": 1
         },
         {
           "index": 3,
           "title": "5kg",
           "price": 109000,
-          "quantity": 2
+          "quantity": 1
         }
       ],
       "show": true
@@ -903,7 +903,7 @@
           "index": 2,
           "title": "2kg",
           "price": 36000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -979,7 +979,7 @@
           "index": 2,
           "title": "10봉지",
           "price": 65000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -1067,7 +1067,7 @@
           "index": 2,
           "title": "간장 1L",
           "price": 12500,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true
@@ -1110,7 +1110,7 @@
           "index": 2,
           "title": "된장 2kg",
           "price": 37000,
-          "quantity": 3
+          "quantity": 1
         }
       ],
       "show": true

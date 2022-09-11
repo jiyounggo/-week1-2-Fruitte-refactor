@@ -20,6 +20,7 @@ function ProductDetail() {
     getData();
   }, []);
 
+  //상품선택
   const selectHandler = e => {
     const selectProduct = e.target.value;
     const findProduct = items[id].salesList.find(item => item.title === selectProduct);
@@ -37,9 +38,25 @@ function ProductDetail() {
     console.info(updatesTotalAmount);
   };
 
-  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price, 0);
+  //총금액
+  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price, 0) * 2;
   console.info(totalAmount);
   console.info(selectOption);
+
+  // const onCountAddHandler = product => {
+  //   let number = selectOption.findIndex(item => {
+  //     return item.index === product.index;
+  //   });
+  //   selectOption[number].quantity++;
+  // };
+
+  //삭제
+  // let deleteitems = product => {
+  //   let copy = [...product];
+  //   console.info(product);
+  //   let 필터 = copy.filter(a => a.index !== product.index);
+  //   console.info(필터);
+  // };
 
   return (
     <Wrapper>
@@ -99,9 +116,21 @@ function ProductDetail() {
             <div>
               <div>
                 {selectOption[0] &&
-                  selectOption.map((a, i) => (
+                  selectOption.map((product, i) => (
                     <div>
-                      {a.title} {a.price}원
+                      <button>-</button>
+                      <input type="number" value={product.quantity} />
+                      <button>+</button>
+                      {product.title} {product.price}원
+                      <button
+                        onClick={() => {
+                          let copy = [...selectOption];
+                          copy.splice(i, 1);
+                          setSelectOption(copy);
+                        }}
+                      >
+                        x
+                      </button>
                     </div>
                   ))}
               </div>
