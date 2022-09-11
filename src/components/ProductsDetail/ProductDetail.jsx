@@ -10,7 +10,7 @@ function ProductDetail() {
   let [items, setItems] = useState([]);
   let { id } = useParams();
   let [selectOption, setSelectOption] = useState([]);
-
+  let [count, setcount] = useState([]);
   const getData = async () => {
     const res = await get();
     setItems(res.products);
@@ -39,7 +39,7 @@ function ProductDetail() {
   };
 
   // 총금액;
-  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price, 0);
+  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price * cart.quantity, 0);
   console.info(totalAmount);
   console.info(selectOption);
 
@@ -57,7 +57,7 @@ function ProductDetail() {
   //   let 필터 = copy.filter(a => a.index !== product.index);
   //   console.info(필터);
   // };
-  let [countip, setcouot] = useState([]);
+
   return (
     <Wrapper>
       <div>
@@ -118,14 +118,23 @@ function ProductDetail() {
                 {selectOption[0] &&
                   selectOption.map((product, i) => (
                     <div>
-                      <button>-</button>
+                      <button
+                        disabled={product.quantity === 1 ? true : false}
+                        value={product.index}
+                        onClick={() => {
+                          let copys = [...selectOption];
+                          setcount(copys[i].quantity--);
+                        }}
+                      >
+                        -
+                      </button>
                       {product.quantity}
                       <button
                         value={product.index}
                         onClick={() => {
                           let copys = [...selectOption];
-                          setcouot(copys[i].quantity++);
-                          console.info(countip);
+                          setcount(copys[i].quantity++);
+                          console.info(count);
                         }}
                       >
                         +
@@ -135,6 +144,7 @@ function ProductDetail() {
                         onClick={() => {
                           let copy = [...selectOption];
                           copy.splice(i, 1);
+                          setcount(0);
                           setSelectOption(copy);
                         }}
                       >
@@ -143,7 +153,7 @@ function ProductDetail() {
                     </div>
                   ))}
               </div>
-              <TotalSum>총{totalAmount} 상품금액원</TotalSum>
+              <TotalSum>상품금액 총{totalAmount} 원</TotalSum>
               <BtnState>
                 <BuyBtn>구매하기</BuyBtn>
                 <CartBtn>장바구니</CartBtn>
