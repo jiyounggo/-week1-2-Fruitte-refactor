@@ -38,8 +38,8 @@ function ProductDetail() {
     console.info(updatesTotalAmount);
   };
 
-  //총금액
-  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price, 0) * 2;
+  // 총금액;
+  const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price, 0);
   console.info(totalAmount);
   console.info(selectOption);
 
@@ -57,7 +57,7 @@ function ProductDetail() {
   //   let 필터 = copy.filter(a => a.index !== product.index);
   //   console.info(필터);
   // };
-
+  let [countip, setcouot] = useState([]);
   return (
     <Wrapper>
       <div>
@@ -119,8 +119,17 @@ function ProductDetail() {
                   selectOption.map((product, i) => (
                     <div>
                       <button>-</button>
-                      <input type="number" value={product.quantity} />
-                      <button>+</button>
+                      {product.quantity}
+                      <button
+                        value={product.index}
+                        onClick={() => {
+                          let copys = [...selectOption];
+                          setcouot(copys[i].quantity++);
+                          console.info(countip);
+                        }}
+                      >
+                        +
+                      </button>
                       {product.title} {product.price}원
                       <button
                         onClick={() => {
@@ -134,7 +143,7 @@ function ProductDetail() {
                     </div>
                   ))}
               </div>
-              <TotalSum>총 상품금액 {totalAmount}원</TotalSum>
+              <TotalSum>총{totalAmount} 상품금액원</TotalSum>
               <BtnState>
                 <BuyBtn>구매하기</BuyBtn>
                 <CartBtn>장바구니</CartBtn>
