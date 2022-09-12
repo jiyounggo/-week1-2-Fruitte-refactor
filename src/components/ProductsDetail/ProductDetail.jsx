@@ -10,8 +10,6 @@ function ProductDetail() {
   let [items, setItems] = useState([]);
   let { id } = useParams();
   let [selectOption, setSelectOption] = useState([]);
-  // let [count, setcount] = useState([]);
-  let [deleteBtn, setDelete] = useState([]);
 
   const getData = async () => {
     const res = await get();
@@ -26,7 +24,8 @@ function ProductDetail() {
   const selectHandler = e => {
     const selectProduct = e.target.value;
     const findProduct = items[id].salesList.find(item => item.title === selectProduct);
-    console.info(findProduct);
+
+    //중복제거
     let dupValue = selectOption.findIndex(a => {
       return a.index === findProduct.index;
     });
@@ -36,14 +35,10 @@ function ProductDetail() {
         ? setSelectOption([...selectOption, findProduct])
         : alert('이미선택된 옵션 입니다');
     }
-    const updatesTotalAmount = selectOption.price + selectOption.price;
-    console.info(updatesTotalAmount);
   };
 
   // 총금액;
   const totalAmount = selectOption.reduce((accu, cart) => accu + cart.price * cart.quantity, 0);
-  console.info(totalAmount);
-  console.info(selectOption);
 
   //수량증가 / 감소
   const onCountHandler = e => {
@@ -58,6 +53,13 @@ function ProductDetail() {
     setSelectOption(
       copiedList.map(item => (item.index === updatedData.index ? updatedData : item))
     );
+  };
+  //삭제
+  const onDeleteHandler = e => {
+    const copiedList = [...selectOption];
+    let updatedData = copiedList.filter(item => item.title !== e.currentTarget.value);
+    console.info(updatedData);
+    setSelectOption(updatedData);
   };
 
   //삭제
@@ -138,14 +140,7 @@ function ProductDetail() {
                         +
                       </button>
                       {product.title} {product.price}원
-                      <button
-                        onClick={() => {
-                          let copy = [...selectOption];
-                          copy.splice(i, 1);
-                          setDelete(copy);
-                          console.log(deleteBtn);
-                        }}
-                      >
+                      <button value={product.title} onClick={onDeleteHandler}>
                         x
                       </button>
                     </div>
