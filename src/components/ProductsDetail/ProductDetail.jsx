@@ -10,7 +10,9 @@ function ProductDetail() {
   let [items, setItems] = useState([]);
   let { id } = useParams();
   let [selectOption, setSelectOption] = useState([]);
-  let [count, setcount] = useState([]);
+  // let [count, setcount] = useState([]);
+  let [deleteBtn, setDelete] = useState([]);
+
   const getData = async () => {
     const res = await get();
     setItems(res.products);
@@ -24,7 +26,7 @@ function ProductDetail() {
   const selectHandler = e => {
     const selectProduct = e.target.value;
     const findProduct = items[id].salesList.find(item => item.title === selectProduct);
-
+    console.info(findProduct);
     let dupValue = selectOption.findIndex(a => {
       return a.index === findProduct.index;
     });
@@ -43,12 +45,20 @@ function ProductDetail() {
   console.info(totalAmount);
   console.info(selectOption);
 
-  // const onCountAddHandler = product => {
-  //   let number = selectOption.findIndex(item => {
-  //     return item.index === product.index;
-  //   });
-  //   selectOption[number].quantity++;
-  // };
+  //수량증가 / 감소
+  const onCountHandler = e => {
+    const copiedList = [...selectOption];
+    let updatedData = copiedList.filter(item => item.title === e.currentTarget.value)[0];
+
+    if (e.target.textContent === '+') {
+      updatedData = { ...updatedData, quantity: updatedData.quantity + 1 };
+    } else {
+      updatedData = { ...updatedData, quantity: updatedData.quantity - 1 };
+    }
+    setSelectOption(
+      copiedList.map(item => (item.index === updatedData.index ? updatedData : item))
+    );
+  };
 
   //삭제
   // let deleteitems = product => {
@@ -87,7 +97,9 @@ function ProductDetail() {
 
             <SelectBoxWrapper>
               <Select onChange={selectHandler}>
-                <option>선택하시오</option>
+                <option value="none" disabled selected>
+                  선택하시오
+                </option>
                 {items[id]?.salesList.map(option => (
                   <option value={option.title} key={option.index}>
                     {option.title}
@@ -118,25 +130,11 @@ function ProductDetail() {
                 {selectOption[0] &&
                   selectOption.map((product, i) => (
                     <div>
-                      <button
-                        disabled={product.quantity === 1 ? true : false}
-                        value={product.index}
-                        onClick={() => {
-                          let copys = [...selectOption];
-                          setcount(copys[i].quantity--);
-                        }}
-                      >
+                      <button value={product.title} onClick={onCountHandler}>
                         -
                       </button>
                       {product.quantity}
-                      <button
-                        value={product.index}
-                        onClick={() => {
-                          let copys = [...selectOption];
-                          setcount(copys[i].quantity++);
-                          console.info(count);
-                        }}
-                      >
+                      <button value={product.title} onClick={onCountHandler}>
                         +
                       </button>
                       {product.title} {product.price}원
@@ -144,8 +142,8 @@ function ProductDetail() {
                         onClick={() => {
                           let copy = [...selectOption];
                           copy.splice(i, 1);
-                          setcount(0);
-                          setSelectOption(copy);
+                          setDelete(copy);
+                          console.log(deleteBtn);
                         }}
                       >
                         x
